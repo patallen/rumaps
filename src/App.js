@@ -1,6 +1,4 @@
-import React, { Component } from "react";
-import { hot } from "react-hot-loader";
-import { GoogleApiWrapper } from "google-maps-react";
+import React from "react";
 import PropTypes from "prop-types";
 
 import GoogleMap from "./components/GoogleMap";
@@ -30,14 +28,18 @@ const ViewPort = styled.div`
   height: 100%;
 `;
 
-class App extends Component {
+class App extends React.Component {
   render() {
     return (
       <ViewPort>
         <Header />
         <Columns>
           <Controls />
-          <GoogleMap google={this.props.google} options={defaultMapOptions} />
+          <GoogleMap
+            apiKey="AIzaSyAwc8mApYAD-PhpnMbAsp6EcpkEZAn1by0"
+            google={this.props.google}
+            options={defaultMapOptions}
+          />
         </Columns>
       </ViewPort>
     );
@@ -45,11 +47,7 @@ class App extends Component {
 }
 
 App.propTypes = {
-  google: PropTypes.Object,
+  google: PropTypes.object
 };
 
-const wrapped = GoogleApiWrapper({
-  apiKey: "AIzaSyAwc8mApYAD-PhpnMbAsp6EcpkEZAn1by0"
-})(hot(module)(App));
-
-export default wrapped;
+export default App;
