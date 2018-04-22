@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 
 class GoogleMap extends Component {
   constructor(props) {
@@ -30,8 +31,8 @@ class GoogleMap extends Component {
 }
 
 GoogleMap.propTypes = {
-  google: "object",
-  options: "object"
+  google: PropTypes.Object,
+  options: PropTypes.Object
 };
 
 export default styled(GoogleMap)`
