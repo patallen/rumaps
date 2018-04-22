@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import {hot} from "react-hot-loader";
+import { hot } from "react-hot-loader";
 import { GoogleApiWrapper } from "google-maps-react";
 
 import GoogleMap from "./components/GoogleMap";
@@ -44,7 +44,7 @@ class App extends Component {
 }
 
 App.propTypes = {
-  google: "object",
+  google: "object"
 };
 
 const wrapped = GoogleApiWrapper({
@@ -52,4 +52,3 @@ const wrapped = GoogleApiWrapper({
 })(hot(module)(App));
 
 export default wrapped;
-

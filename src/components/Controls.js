@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 
-
 const StyledControls = styled.nav`
   position: absolute;
   display: flex;
@@ -11,7 +10,6 @@ const StyledControls = styled.nav`
   transition: 0.2s;
   background: rgba(250, 250, 250, 0.86);
 `;
-
 
 const StyledToggleTag = styled.div`
   border: 1px solid #0077ff;
@@ -40,7 +38,7 @@ const StyledToggleTag = styled.div`
     font-size: 0.9em;
     left: calc(100% + 11px);
     color: white;
-    background: #0077FF;
+    background: #0077ff;
     border-radius: 4px;
   }
 `;
@@ -72,7 +70,7 @@ class Controls extends React.Component {
     let className = open ? "toggled" : "";
     return (
       <ControlsPanel className={className}>
-        <StyledControls toggled={open} className={className}/>
+        <StyledControls toggled={open} className={className} />
         <StyledToggleTag onClick={this.toggleState} className={className}>
           CONTROLS
         </StyledToggleTag>

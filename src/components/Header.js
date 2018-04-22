@@ -6,7 +6,7 @@ const StyledHeader = styled.header`
   z-index: 10;
   box-shadow: darkslategrey 0 -4px 6px 4px;
   height: 60px;
-  background: #0077FF;
+  background: #0077ff;
   text-transform: uppercase;
   font-family: helvetica;
 `;
@@ -31,7 +31,9 @@ const HeaderLogo = styled.a`
 const Header = () => {
   return (
     <StyledHeader>
-      <HeaderLogo>ru<StyledFaMap />aps</HeaderLogo>
+      <HeaderLogo>
+        ru<StyledFaMap />aps
+      </HeaderLogo>
     </StyledHeader>
   );
 };

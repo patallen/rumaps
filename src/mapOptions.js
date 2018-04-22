@@ -1,4 +1,4 @@
-const MAP_OPTIONS= {
+const MAP_OPTIONS = {
   center: { lat: 42.3838764, lng: -71.087972 },
   zoom: 14,
   disableDefaultUI: true,

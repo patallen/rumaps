@@ -22,8 +22,8 @@ class GoogleMap extends Component {
 
   render() {
     return (
-      <div style={{width: "100%", height: "100%"}} ref={m => this.map = m}>
-                loading map...
+      <div style={{ width: "100%", height: "100%" }} ref={m => (this.map = m)}>
+        loading map...
       </div>
     );
   }
@@ -31,7 +31,7 @@ class GoogleMap extends Component {
 
 GoogleMap.propTypes = {
   google: "object",
-  options: "object",
+  options: "object"
 };
 
 export default styled(GoogleMap)`

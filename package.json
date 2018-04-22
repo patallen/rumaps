@@ -5,6 +5,7 @@
   "dependencies": {
     "google-maps": "^3.3.0",
     "google-maps-react": "^2.0.0",
+    "prettier": "1.12.1",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
     "react-hot-loader": "^4.1.1",
