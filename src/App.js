@@ -1,14 +1,15 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
+import {hot} from "react-hot-loader";
 import { GoogleApiWrapper } from "google-maps-react";
 
-import GoogleMap from './components/GoogleMap';
-import Controls from './components/Controls';
-import Header from './components/Header';
+import GoogleMap from "./components/GoogleMap";
+import Controls from "./components/Controls";
+import Header from "./components/Header";
 import defaultMapOptions from "./mapOptions";
 
-import styled from 'styled-components';
+import styled from "styled-components";
 
-import './App.css';
+import "./App.css";
 
 const Columns = styled.section`
   position: relative;
@@ -16,6 +17,7 @@ const Columns = styled.section`
   display: flex;
   box-orient: vertical;
   height: 100%;
+  overflow-y: hidden;
 `;
 
 const ViewPort = styled.div`
@@ -25,7 +27,7 @@ const ViewPort = styled.div`
   box-pack: justify;
   width: 100%;
   height: 100%;
-`
+`;
 
 class App extends Component {
   render() {
@@ -41,9 +43,13 @@ class App extends Component {
   }
 }
 
-const wrapped = GoogleApiWrapper({
-  apiKey: 'AIzaSyAwc8mApYAD-PhpnMbAsp6EcpkEZAn1by0'
-})(App)
+App.propTypes = {
+  google: "object",
+};
 
-export default wrapped
+const wrapped = GoogleApiWrapper({
+  apiKey: "AIzaSyAwc8mApYAD-PhpnMbAsp6EcpkEZAn1by0"
+})(hot(module)(App));
+
+export default wrapped;
 

@@ -1,41 +1,47 @@
-import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
+import React, { Component } from "react";
 import styled from "styled-components";
 
 class GoogleMap extends Component {
-    constructor(props) {
-        super(props);
-        this.state = { markers: [] }
-        this.addMarker = this._addMarker.bind(this)
-    }
-    componentDidMount() {
-        this.loadMap()
-    }
-    _addMarker({ latLng }) {
-        let marker = { lat: latLng.lat(), lng: latLng.lng() };
-        this.setState({ markers: [...this.state.markers, marker] })
-    }
-    loadMap() {
-        const { options, google } = this.props;
-        if (this.props && this.props.google) {
-            const node = ReactDOM.findDOMNode(this.refs.map);
-            this.map = new google.maps.Map(node, options);
-            google.maps.event.addListener(this.map, 'click', this.addMarker)
-        }
-    }
+  constructor(props) {
+    super(props);
+    this.state = { markers: [] };
+    this.addMarker = this._addMarker.bind(this);
+  }
+  componentDidMount() {
+    this.loadMap();
+  }
+  _addMarker({ latLng }) {
+    let marker = { lat: latLng.lat(), lng: latLng.lng() };
+    this.setState({ markers: [...this.state.markers, marker] });
+  }
+  loadMap() {
+    const { options, google } = this.props;
+    this.map = new google.maps.Map(this.map.node, options);
+    google.maps.event.addListener(this.map, "click", this.addMarker);
+  }
 
-    render() {
-        return (
-            <MapContainer ref="map">
+  render() {
+    return (
+      <div style={{width: "100%", height: "100%"}} ref={m => this.map = m}>
                 loading map...
-            </MapContainer>
-        )
-    }
+      </div>
+    );
+  }
 }
 
-export const MapContainer = styled.section`
+GoogleMap.propTypes = {
+  google: "object",
+  options: "object",
+};
+
+export default styled(GoogleMap)`
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   width: 100%;
   height: 100%;
-  position: relative;
-`
-export default GoogleMap;
+  z-index: -10;
+  overflow: hidden;
+  position: absolute;
+`;

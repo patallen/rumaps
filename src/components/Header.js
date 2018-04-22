@@ -1,18 +1,19 @@
-import React from 'react';
-import styled from 'styled-components';
-import FaMap from 'react-icons/lib/fa/map'
+import React from "react";
+import styled from "styled-components";
+import FaMap from "react-icons/lib/fa/map";
 
 const StyledHeader = styled.header`
+  z-index: 10;
+  box-shadow: darkslategrey 0 -4px 6px 4px;
   height: 60px;
   background: #0077FF;
-  z-index: 100;
   text-transform: uppercase;
   font-family: helvetica;
 `;
 
 const StyledFaMap = styled(FaMap)`
   margin: 0 4px;
-`
+`;
 
 const HeaderLogo = styled.a`
   cursor: pointer;
@@ -32,7 +33,7 @@ const Header = () => {
     <StyledHeader>
       <HeaderLogo>ru<StyledFaMap />aps</HeaderLogo>
     </StyledHeader>
-  )
+  );
 };
 
 export default Header;
