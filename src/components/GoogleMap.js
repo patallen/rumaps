@@ -22,11 +22,11 @@ class MapContainer extends React.Component {
       this.map.google.events.addListener(this.map, name, callback);
     }
   }
-  _handleEvent(_event) {
+  _handleEvent(/*_event*/) {
     // TODO: Central dispatch of GoogleMap events.
   }
 
-  _onMapReady(_event) {
+  _onMapReady(/*_event*/) {
     // TODO: Do we want to do anythng where it's ready?
   }
 
