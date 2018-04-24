@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import GoogleMap from "./components/GoogleMap";
-import Controls from "./components/Controls";
+import ControlPanel from "./containers/ControlPanel";
 import Header from "./components/Header";
 import defaultMapOptions from "./mapOptions";
 
@@ -34,7 +34,7 @@ class App extends React.Component {
       <ViewPort>
         <Header />
         <Columns>
-          <Controls />
+          <ControlPanel />
           <GoogleMap
             apiKey="AIzaSyAwc8mApYAD-PhpnMbAsp6EcpkEZAn1by0"
             google={this.props.google}
