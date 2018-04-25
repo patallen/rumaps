@@ -2,7 +2,7 @@
   "name": "rumaps",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://patallen.github.io/rumaps",
+  "homepage": "http://patallen.github.io",
   "dependencies": {
     "gh-pages": "^1.1.0",
     "google-maps": "^3.3.0",

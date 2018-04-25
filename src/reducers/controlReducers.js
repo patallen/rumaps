@@ -1,7 +1,7 @@
 import { actionTypes } from "../actions/controlActions";
 
 export const locationReducer = (state, action) => {
-  if (state == undefined) {
+  if (state === undefined) {
     return {
       coordinates: {
         lat: null,
