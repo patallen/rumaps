@@ -12,12 +12,14 @@ export const locationReducer = (state, action) => {
   }
   let newState = { ...state };
   switch (action.type) {
-  case actionTypes.setLocation:
-    return {
-      coordinates: action.coordinates,
-      string: action.string
-    };
-  default:
-    return newState;
+    case actionTypes.setLocation:
+      newState = {
+        coordinates: action.coordinates,
+        string: action.string
+      };
+      break;
+    default:
+      return state;
   }
+  return newState;
 };

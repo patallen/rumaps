@@ -1,5 +1,6 @@
 import React from "react";
 import { Marker, Map, GoogleApiWrapper } from "google-maps-react";
+import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
 class MapContainer extends React.Component {
@@ -9,6 +10,7 @@ class MapContainer extends React.Component {
     this.ref = React.createRef();
     this.handleEvent = this._handleEvent.bind(this);
     this.onMapReady = this._onMapReady.bind(this);
+    this.onMapClicked = this._onMapClicked.bind(this);
   }
 
   buildMarkers() {
@@ -22,17 +24,28 @@ class MapContainer extends React.Component {
       this.map.google.events.addListener(this.map, name, callback);
     }
   }
-  _handleEvent(/*_event*/) {
+  _handleEvent(/*event*/) {
     // TODO: Central dispatch of GoogleMap events.
   }
 
-  _onMapReady(/*_event*/) {
-    // TODO: Do we want to do anythng where it's ready?
+  _onMapReady(/*event*/) {
+    window.map = this.map;
+  }
+
+  _onMapClicked(/*event*/) {}
+
+  componentWillReceiveProps(newProps) {
+    if (this.props.location !== newProps.location) {
+      this.map.map.setCenter(newProps.location.coordinates);
+      this.forceUpdate();
+    }
   }
 
   render() {
     const google = this.props.google;
-    const { disableDefaultUI, center, zoom, styles } = this.props.options;
+    const { disableDefaultUI, location, zoom, styles } = this.props.options;
+
+    let center = location ? location.coordinates : null;
     return (
       <Map
         center={center}
@@ -42,6 +55,7 @@ class MapContainer extends React.Component {
         onReady={this._onMapReady.bind(this)}
         ref={m => (this.map = m)}
         styles={styles}
+        onClick={this.onMapClicked}
         zoom={zoom}
       >
         {this.buildMarkers()}
@@ -52,7 +66,8 @@ class MapContainer extends React.Component {
 
 MapContainer.propTypes = {
   google: PropTypes.object,
-  options: PropTypes.object
+  options: PropTypes.object,
+  location: PropTypes.object
 };
 
 const wrapped = GoogleApiWrapper(p => ({
@@ -60,4 +75,6 @@ const wrapped = GoogleApiWrapper(p => ({
   options: p.options
 }))(MapContainer);
 
-export default wrapped;
+const mapStateToProps = state => ({ location: state.location });
+
+export default connect(mapStateToProps)(wrapped);

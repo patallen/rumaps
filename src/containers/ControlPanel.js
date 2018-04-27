@@ -2,8 +2,9 @@ import React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { setLocation } from "../actions/controlActions";
-
+import PropTypes from "prop-types";
 import styled from "styled-components";
+import LocationSelector from "../components/LocationSelector";
 
 const StyledControls = styled.nav`
   position: absolute;
@@ -16,26 +17,25 @@ const StyledControls = styled.nav`
 `;
 
 const StyledToggleTag = styled.div`
+  align-items: center;
+  background: rgba(250, 250, 250, 0.86);
+  border-bottom: unset;
   border: 1px solid #0077ff;
-  z-index: 11;
-  position: absolute;
+  color: #0088ee;
   cursor: pointer;
   display: flex;
-  align-items: center;
   float: right;
-  top: 0;
-  transition: 0.3s;
-  padding: 0 6px;
   height: 30px;
-  background: rgba(250, 250, 250, 0.86);
-  color: #0088ee;
+  left: calc(100% + 30px);
+  overflow: hidden;
+  padding: 0 6px;
+  position: absolute;
+  top: 0;
+  top: 100px;
   transform-origin: 0px 0px;
   transform: rotate(90deg);
-  overflow: hidden;
-  top: 100px;
-  left: 30px;
-  left: calc(100% + 30px);
-  border-bottom: unset;
+  transition: 0.3s;
+  z-index: 11;
   &.toggled {
     padding: 0 3px;
     height: 20px;
@@ -72,36 +72,6 @@ const ControlWrapper = styled.div`
   padding: 4px 10px;
 `;
 
-const LocationInput = styled.input`
-  height: 30px;
-  font-size: 0.9em;
-  width: 100%;
-  outline: none;
-  border: 1px solid rgba(0, 110, 255, 0.8);
-  padding: 0 4px;
-  &[disabled] {
-    background: #f1f1f1;
-    border: 1px solid rgba(0, 110, 255, 0.3);
-  }
-`;
-class LocationSelector extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      editing: false,
-      loading: false
-    };
-  }
-  render() {
-
-    return (
-      <ControlWrapper>
-        <LocationInput disabled={this.loading || this.editing} />
-      </ControlWrapper>
-    );
-  }
-}
-
 class ControlPanel extends React.Component {
   constructor(props) {
     super(props);
@@ -118,7 +88,13 @@ class ControlPanel extends React.Component {
       <ControlsPanel className={className}>
         <StyledControls toggled={open} className={className}>
           <ControlLabel>Location</ControlLabel>
-          <LocationSelector callback={() => console.log("FUCK")} />
+          <ControlWrapper>
+            <LocationSelector
+              selectCallback={s =>
+                this.props.actions.setLocation({ coordinates: s.location })
+              }
+            />
+          </ControlWrapper>
         </StyledControls>
         <StyledToggleTag onClick={this.toggleState} className={className}>
           CONTROLS
@@ -127,6 +103,11 @@ class ControlPanel extends React.Component {
     );
   }
 }
+
+ControlPanel.propTypes = {
+  google: PropTypes.object,
+  actions: PropTypes.object
+};
 
 const mapStateToProps = state => ({ location: state.location });
 const mapDispatchToProps = dispatch => ({

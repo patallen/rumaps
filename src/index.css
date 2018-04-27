@@ -27,3 +27,14 @@ html {
 body {
   overflow: auto;
 }
+
+.geosuggest__suggests--hidden {
+  max-height: 0;
+  overflow: hidden;
+  border-width: 0;
+}
+
+.geosuggest__item--active {
+  background: #0077ff;
+  color: #fff;
+}

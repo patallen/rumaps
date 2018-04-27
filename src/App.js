@@ -28,23 +28,21 @@ const ViewPort = styled.div`
   height: 100%;
 `;
 
-class App extends React.Component {
-  render() {
-    return (
-      <ViewPort>
-        <Header />
-        <Columns>
-          <ControlPanel />
-          <GoogleMap
-            apiKey="AIzaSyAwc8mApYAD-PhpnMbAsp6EcpkEZAn1by0"
-            google={this.props.google}
-            options={defaultMapOptions}
-          />
-        </Columns>
-      </ViewPort>
-    );
-  }
-}
+const App = props => {
+  return (
+    <ViewPort>
+      <Header />
+      <Columns>
+        <ControlPanel />
+        <GoogleMap
+          apiKey="AIzaSyAwc8mApYAD-PhpnMbAsp6EcpkEZAn1by0"
+          google={props.google}
+          options={defaultMapOptions}
+        />
+      </Columns>
+    </ViewPort>
+  );
+};
 
 App.propTypes = {
   google: PropTypes.object
