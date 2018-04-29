@@ -6,33 +6,59 @@ import PropTypes from "prop-types";
 class MapContainer extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { markers: [] };
+    this.state = { points: [] };
     this.ref = React.createRef();
-    this.handleEvent = this._handleEvent.bind(this);
     this.onMapReady = this._onMapReady.bind(this);
     this.onMapClicked = this._onMapClicked.bind(this);
   }
 
   buildMarkers() {
-    return this.state.markers.map(m => (
-      <Marker key={m.id} lat={m.lat} lng={m.lng} />
-    ));
-  }
-
-  _setupListeners(listenerConfs) {
-    for (let [name, callback] of listenerConfs) {
-      this.map.google.events.addListener(this.map, name, callback);
+    let rv = [];
+    for (let point of this.state.points) {
+      let loc = point.location;
+      rv.push(
+        <Marker key={rv.length} position={{ lat: loc.lat(), lng: loc.lng() }} />
+      );
     }
-  }
-  _handleEvent(/*event*/) {
-    // TODO: Central dispatch of GoogleMap events.
+    return rv;
   }
 
   _onMapReady(/*event*/) {
     window.map = this.map;
+    this.directions = new this.props.google.maps.DirectionsService();
+    this.display = new this.props.google.maps.DirectionsRenderer({
+      // draggable: true,
+      map: this.map.map,
+      preserveViewport: true,
+      suppressMarkers: true
+    });
   }
 
-  _onMapClicked(/*event*/) {}
+  displayRoute(points) {
+    if (points.length > 0) {
+      let origin = points[0];
+      let destination = points[points.length - 1];
+      let waypoints = points.slice(1, points.length - 1);
+      this.directions.route(
+        {
+          origin,
+          destination,
+          waypoints,
+          travelMode: "WALKING"
+        },
+        (response, status) => {
+          if (status === "OK") {
+            this.display.setDirections(response);
+          }
+        }
+      );
+    }
+  }
+
+  _onMapClicked(event, map, location) {
+    let points = [...this.state.points, { location: location.latLng }];
+    this.setState({ points });
+  }
 
   componentWillReceiveProps(newProps) {
     if (this.props.location !== newProps.location) {
@@ -46,14 +72,14 @@ class MapContainer extends React.Component {
     const { disableDefaultUI, location, zoom, styles } = this.props.options;
 
     let center = location ? location.coordinates : null;
+    this.displayRoute(this.state.points);
     return (
       <Map
+        ref={m => (this.map = m)}
         center={center}
-        centerAroundCurrentLocation={true}
         disableDefaultUI={disableDefaultUI}
         google={google}
-        onReady={this._onMapReady.bind(this)}
-        ref={m => (this.map = m)}
+        onReady={this.onMapReady}
         styles={styles}
         onClick={this.onMapClicked}
         zoom={zoom}
