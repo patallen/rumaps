@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import GoogleMap from "./components/GoogleMap";
+import GoogleMap from "./containers/GoogleMap";
 import ControlPanel from "./containers/ControlPanel";
 import RouteInfo from "./containers/RouteInfo";
 import Header from "./components/Header";

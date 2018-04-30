@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { setLocation } from "../actions/controlActions";
+import { clearRoute } from "../actions/routeActions";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import LocationSelector from "../components/LocationSelector";
@@ -14,6 +15,17 @@ const StyledControls = styled.nav`
   width: 100%;
   transition: 0.2s;
   background: rgba(250, 250, 250, 0.86);
+`;
+
+const ClearButton = styled.div`
+  width: 100%;
+  border: 1px solid #0077ff;
+  padding: 10px;
+  text-align: center;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #0077ff;
+  background-color: white;
 `;
 
 const StyledToggleTag = styled.div`
@@ -46,6 +58,7 @@ const StyledToggleTag = styled.div`
     border-radius: 4px;
   }
 `;
+
 const ControlsPanel = styled.div`
   box-shadow: darkslategrey -5px 0px 6px 4px;
   transition: 0.3s;
@@ -65,11 +78,12 @@ const ControlLabel = styled.div`
   display: block;
   width: 100%;
   font-weight: bold;
-  padding-left: 10px;
+  padding-left: 2px;
 `;
 
 const ControlWrapper = styled.div`
   padding: 4px 10px;
+  margin-top: 4px;
 `;
 
 class ControlPanel extends React.Component {
@@ -87,13 +101,19 @@ class ControlPanel extends React.Component {
     return (
       <ControlsPanel className={className}>
         <StyledControls toggled={open} className={className}>
-          <ControlLabel>Location</ControlLabel>
           <ControlWrapper>
+            <ControlLabel>Location</ControlLabel>
             <LocationSelector
               selectCallback={s =>
                 this.props.actions.setLocation({ coordinates: s.location })
               }
             />
+          </ControlWrapper>
+          <ControlWrapper>
+            <ControlLabel>Route</ControlLabel>
+            <ClearButton onClick={this.props.actions.clearRoute}>
+              Clear Waypoints
+            </ClearButton>
           </ControlWrapper>
         </StyledControls>
         <StyledToggleTag onClick={this.toggleState} className={className}>
@@ -111,7 +131,7 @@ ControlPanel.propTypes = {
 
 const mapStateToProps = state => ({ location: state.location });
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators({ setLocation }, dispatch)
+  actions: bindActionCreators({ setLocation, clearRoute }, dispatch)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ControlPanel);

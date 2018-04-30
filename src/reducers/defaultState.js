@@ -6,6 +6,7 @@ export default {
     }
   },
   routeInfo: {
-    distance: 0
+    distance: 0,
+    waypoints: []
   }
 };

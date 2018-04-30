@@ -1,10 +1,10 @@
 import { combineReducers } from "redux";
 import { locationReducer } from "./controlReducers";
-import { infoReducer } from "./infoReducers";
+import { routeReducer } from "./routeReducers";
 
 const combinedReducer = combineReducers({
   location: locationReducer,
-  routeInfo: infoReducer
+  routeInfo: routeReducer
 });
 
 export default combinedReducer;

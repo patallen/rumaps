@@ -1,7 +1,7 @@
-import { actionTypes } from "../actions/infoActions";
+import { actionTypes } from "../actions/routeActions";
 import defaultState from "./defaultState";
 
-export const infoReducer = (state, action) => {
+export const routeReducer = (state, action) => {
   if (state === undefined) {
     return defaultState.routeInfo;
   }
@@ -9,6 +9,12 @@ export const infoReducer = (state, action) => {
   switch (action.type) {
   case actionTypes.updateDistance:
     newState.distance = action.distance;
+    break;
+  case actionTypes.clearRoute:
+    newState.waypoints = [];
+    break;
+  case actionTypes.appendPoint:
+    newState.waypoints.push(action.point);
     break;
   default:
     return state;
