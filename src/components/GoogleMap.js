@@ -2,6 +2,17 @@ import React from "react";
 import { Marker, Map, GoogleApiWrapper } from "google-maps-react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import { bindActionCreators } from "redux";
+import { updateDistance } from "../actions/infoActions";
+
+const makeMarker = google => ({
+  path: google.maps.SymbolPath.CIRCLE,
+  scale: 5,
+  fillColor: "#0077FF",
+  fillOpacity: 0.7,
+  strokeColor: "#0077FF",
+  strokeWeight: 4
+});
 
 class MapContainer extends React.Component {
   constructor(props) {
@@ -17,23 +28,58 @@ class MapContainer extends React.Component {
     for (let point of this.state.points) {
       let loc = point.location;
       rv.push(
-        <Marker key={rv.length} position={{ lat: loc.lat(), lng: loc.lng() }} />
+        <Marker
+          key={rv.length}
+          position={{ lat: loc.lat(), lng: loc.lng() }}
+          icon={makeMarker(this.props.google)}
+        />
       );
     }
     return rv;
   }
 
+  getDistance() {
+    let { points } = this.state;
+    if (points.length > 1) {
+      this.matrix.getDistanceMatrix(
+        {
+          origin: points[0],
+          destination: points[points.length - 1],
+          waypoints: points.slice(1, points.length - 2),
+          travelMode: "WALKING"
+        },
+        response => {
+          this.props.actions.updateDistance({
+            distance: response.rows[0].elements[0].distance.value
+          });
+        }
+      );
+    } else {
+      this.props.actions.updateDistance({ distance: 0 });
+    }
+  }
   _onMapReady(/*event*/) {
-    window.map = this.map;
-    this.directions = new this.props.google.maps.DirectionsService();
-    this.display = new this.props.google.maps.DirectionsRenderer({
+    let { maps } = this.props.google;
+    this.directions = new maps.DirectionsService();
+    this.display = new maps.DirectionsRenderer({
       // draggable: true,
+      polylineOptions: {
+        strokeColor: "#0066FF",
+        strokeOpacity: 0.4,
+        strokeWeight: 4
+      },
       map: this.map.map,
       preserveViewport: true,
       suppressMarkers: true
     });
   }
-
+  calcDistance(legs) {
+    let distance = 0;
+    for (let leg of legs) {
+      distance += leg.distance.value;
+    }
+    return distance;
+  }
   displayRoute(points) {
     if (points.length > 0) {
       let origin = points[0];
@@ -49,6 +95,8 @@ class MapContainer extends React.Component {
         (response, status) => {
           if (status === "OK") {
             this.display.setDirections(response);
+            let distance = this.calcDistance(response.routes[0].legs);
+            this.props.actions.updateDistance({ distance });
           }
         }
       );
@@ -93,7 +141,9 @@ class MapContainer extends React.Component {
 MapContainer.propTypes = {
   google: PropTypes.object,
   options: PropTypes.object,
-  location: PropTypes.object
+  location: PropTypes.object,
+  routeInfo: PropTypes.object,
+  actions: PropTypes.object
 };
 
 const wrapped = GoogleApiWrapper(p => ({
@@ -101,6 +151,13 @@ const wrapped = GoogleApiWrapper(p => ({
   options: p.options
 }))(MapContainer);
 
-const mapStateToProps = state => ({ location: state.location });
+const mapStateToProps = state => ({
+  location: state.location,
+  routeInfo: state.routeInfo
+});
 
-export default connect(mapStateToProps)(wrapped);
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators({ updateDistance }, dispatch)
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(wrapped);
