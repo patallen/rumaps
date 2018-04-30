@@ -5,7 +5,7 @@ import FaMap from "react-icons/lib/fa/map";
 const StyledHeader = styled.header`
   z-index: 10;
   box-shadow: darkslategrey 0 -4px 6px 4px;
-  height: 60px;
+  height: 50px;
   background: #0077ff;
   text-transform: uppercase;
   font-family: helvetica;
@@ -17,7 +17,6 @@ const StyledFaMap = styled(FaMap)`
 
 const HeaderLogo = styled.a`
   cursor: pointer;
-  width: 240px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -25,7 +24,7 @@ const HeaderLogo = styled.a`
   font-size: 30px;
   font-weight: bold;
   height: 100%;
-  color: #e7e7e7;
+  color: #f0f0f0;
 `;
 
 const Header = () => {

@@ -14,7 +14,7 @@ const InfoBox = styled.div`
   border-radius: 10px;
   position: absolute;
   width: 200px;
-  height: 140px;
+  height: 100px;
   bottom: 20px;
   right: 20px;
   text-align: center;
