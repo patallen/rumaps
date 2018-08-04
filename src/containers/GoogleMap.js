@@ -8,16 +8,17 @@ import { appendPoint } from "../actions/routeActions";
 
 const makeMarker = google => ({
   path: google.maps.SymbolPath.CIRCLE,
-  scale: 5,
-  fillColor: "#0077FF",
   fillOpacity: 0.7,
+  fillColor: "#0077FF",
   strokeColor: "#0077FF",
-  strokeWeight: 4
+  strokeWeight: 4,
+  scale: 5,
 });
 
 class MapContainer extends React.Component {
   constructor(props) {
     super(props);
+
     this.ref = React.createRef();
     this.onMapReady = this._onMapReady.bind(this);
     this.onMapClicked = this._onMapClicked.bind(this);
@@ -31,15 +32,16 @@ class MapContainer extends React.Component {
         <Marker
           key={rv.length}
           position={{ lat: loc.lat(), lng: loc.lng() }}
-          icon={makeMarker(this.props.google)}
+          icon={ makeMarker(this.props.google) }
         />
       );
     }
     return rv;
   }
 
-  _onMapReady(/*event*/) {
+  _onMapReady() {
     let { maps } = this.props.google;
+
     this.directions = new maps.DirectionsService();
     this.display = new maps.DirectionsRenderer({
       // draggable: true,
@@ -69,9 +71,11 @@ class MapContainer extends React.Component {
       this.display.setDirections({ routes: [] });
       return;
     }
+
     let origin = points[0];
     let destination = points[points.length - 1];
     let waypoints = points.slice(1, points.length - 1);
+
     this.directions.route(
       {
         origin,
@@ -126,10 +130,10 @@ class MapContainer extends React.Component {
 
 MapContainer.propTypes = {
   google: PropTypes.object,
+  actions: PropTypes.object,
   options: PropTypes.object,
   location: PropTypes.object,
-  routeInfo: PropTypes.object,
-  actions: PropTypes.object
+  routeInfo: PropTypes.object
 };
 
 const wrapped = GoogleApiWrapper(p => ({
@@ -137,7 +141,7 @@ const wrapped = GoogleApiWrapper(p => ({
   options: p.options
 }))(MapContainer);
 
-const mapStateToProps = state => ({
+const mapStateToProps = ({ location, routeInfo }) => ({
   location: state.location,
   routeInfo: state.routeInfo
 });
